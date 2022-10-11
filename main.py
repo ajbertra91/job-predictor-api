@@ -23,9 +23,9 @@ app.add_middleware(
 )
 
 # Loading up the trained model
-model = pickle.load(open('../model/hireable.pkl', 'rb'))
+model = pickle.load(open('./model/hireable.pkl', 'rb'))
 # Loading up the trained model
-model = pickle.load(open('../model/hireable.pkl', 'rb'))
+model = pickle.load(open('./model/hireable.pkl', 'rb'))
 
 # Defining the model input types
 class Candidate(BaseModel):
