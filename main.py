@@ -5,11 +5,12 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+PORT = 8080
 # Initializing the fast API server
 app = FastAPI()
 origins = [
   "http://localhost",
-  "http://localhost:8080",
+  f"http://localhost:{PORT}",
   "https://job-predictor-api.herokuapp.com/"
 ]
 app.add_middleware(
@@ -62,4 +63,4 @@ async def get_predict(data: Candidate):
 
 # Configuring the server host and port
 if __name__ == '__main__':
-  uvicorn.run(app, port=8080, host='0.0.0.0')
+  uvicorn.run(app, port=PORT, host='0.0.0.0', log_level="info")
