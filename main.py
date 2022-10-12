@@ -1,6 +1,6 @@
 # Importing necessary libraries
 import uvicorn
-import pickle
+from pickle5 import pickle
 from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,7 +10,6 @@ app = FastAPI()
 origins = [
   "http://localhost",
   "http://localhost:8080",
-  "http://localhost:3000",
   "https://job-predictor-api.herokuapp.com/"
 ]
 app.add_middleware(
@@ -53,7 +52,7 @@ async def get_predict(data: Candidate):
     data.etest_p,
     data.msc
   ]]
-  hired = await model.predict(sample).tolist()[0]
+  hired = model.predict(sample).tolist()[0]
   return {
     "data": {
       'prediction': hired,
