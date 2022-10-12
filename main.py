@@ -8,11 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 # Initializing the fast API server
 app = FastAPI()
 origins = [
-  "http://localhost.tiangolo.com",
-  "https://localhost.tiangolo.com",
   "http://localhost",
   "http://localhost:8080",
   "http://localhost:3000",
+  "https://job-predictor-api.herokuapp.com/"
 ]
 app.add_middleware(
   CORSMiddleware,
@@ -54,7 +53,7 @@ async def get_predict(data: Candidate):
     data.etest_p,
     data.msc
   ]]
-  hired = model.predict(sample).tolist()[0]
+  hired = await model.predict(sample).tolist()[0]
   return {
     "data": {
       'prediction': hired,
