@@ -1,7 +1,7 @@
 # src/main.py
 
 import sys
-sys.path.append('./src/')
+sys.path.append('./job_predictor/')
 import uvicorn
 from pickle5 import pickle
 from pydantic import BaseModel
@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 # Loading up the trained model
-model = pickle.load(open('./src/model/hireable.pkl', 'rb'))
+model = pickle.load(open('./job_predictor/model/hireable.pkl', 'rb'))
 
 # Defining the model input types
 class Candidate(BaseModel):
@@ -63,8 +63,5 @@ async def get_predict(data: Candidate):
   }
 
 # Configuring the server host and port
-def main():
-  uvicorn.run(app, port=settings.port, host='0.0.0.0', log_level="info")
-
 if __name__ == '__main__':
-  main()
+  uvicorn.run(app, port=settings.port, host='0.0.0.0', log_level="info")
