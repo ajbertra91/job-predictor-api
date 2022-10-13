@@ -15,12 +15,7 @@ settings = get_settings()
 
 # Initializing the fast API server
 app = FastAPI()
-origins = [
-  "http://localhost",
-  f"http://localhost:{settings.port}",
-  "https://job-predictor-api.herokuapp.com/"
-  f"https://job-predictor-api.herokuapp.com:{settings.port}"
-]
+origins = ["*"]
 app.add_middleware(
   CORSMiddleware,
   allow_origins=origins,
