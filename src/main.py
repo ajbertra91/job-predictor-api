@@ -1,17 +1,25 @@
-# Importing necessary libraries
+# src/main.py
+
+import sys
+sys.path.append('./src/')
 import uvicorn
 from pickle5 import pickle
 from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from config import get_settings
+# import os
+# print(os.listdir("."))  # show all files in the cwd
 
-PORT = 8080
+settings = get_settings()
+
 # Initializing the fast API server
 app = FastAPI()
 origins = [
   "http://localhost",
-  f"http://localhost:{PORT}",
+  f"http://localhost:{settings.port}",
   "https://job-predictor-api.herokuapp.com/"
+  f"https://job-predictor-api.herokuapp.com:{settings.port}"
 ]
 app.add_middleware(
   CORSMiddleware,
@@ -22,9 +30,7 @@ app.add_middleware(
 )
 
 # Loading up the trained model
-model = pickle.load(open('./model/hireable.pkl', 'rb'))
-# Loading up the trained model
-model = pickle.load(open('./model/hireable.pkl', 'rb'))
+model = pickle.load(open('./src/model/hireable.pkl', 'rb'))
 
 # Defining the model input types
 class Candidate(BaseModel):
@@ -62,5 +68,8 @@ async def get_predict(data: Candidate):
   }
 
 # Configuring the server host and port
+def main():
+  uvicorn.run(app, port=settings.port, host='0.0.0.0', log_level="info")
+
 if __name__ == '__main__':
-  uvicorn.run(app, port=PORT, host='0.0.0.0', log_level="info")
+  main()
